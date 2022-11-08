@@ -1,19 +1,26 @@
 import { galleryItems } from './gallery-items.js';
-const divEl =  document.querySelector(".gallery");
-function addImg(img) {
-  img.map(el => divEl.insertAdjacentHTML('afterbegin',`
-  <div class="gallery__item">
-  <a class="gallery__link" href="${el.original}">
+const divEL =  document.querySelector(".gallery");
+const cardsMarkup = createGalleryItemsCardMarkup(galleryItems);
+divEL.insertAdjacentHTML('afterbegin', cardsMarkup);
+
+function createGalleryItemsCardMarkup(galleryItems) {
+    return galleryItems
+   .map(({preview, original, description}) => {
+    return` 
+    
+    <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
-      src="${el.preview}"
-      data-source="${el.original}"
-      alt="${el.description}"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
     />
   </a>
-</div>`))
-return img;
-}
+  
+  `;
+   }).join('')
+
+};
 function bigImgClick(elem) {
   elem.preventDefault();
   if (!elem.target.classList.contains('gallery__image')) {
@@ -23,7 +30,6 @@ function bigImgClick(elem) {
   <img src=${elem.target.dataset.source} width="auto" height="auto">
 `)
 instance.show()
-console.log(elem.target.dataset.source);
 }
-divEl.addEventListener("click", bigImgClick)
-console.log(addImg(galleryItems))
+divEL.addEventListener("click", bigImgClick)
+console.log(galleryItems);

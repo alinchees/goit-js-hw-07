@@ -1,18 +1,25 @@
 import { galleryItems } from './gallery-items.js';
 const divEL =  document.querySelector(".gallery");
-function addImg(img) {
-  img.map(el => divEL.insertAdjacentHTML('afterbegin',`
-  <a class="gallery__link" href="${el.original}">
+const cardsMarkup = createGalleryItemsCardMarkup(galleryItems);
+divEL.insertAdjacentHTML('afterbegin', cardsMarkup);
+
+function createGalleryItemsCardMarkup(galleryItems) {
+    return galleryItems
+   .map(({preview, original, description}) => {
+    return` 
+    <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
-      src="${el.preview}"
-      alt=${el.description}
+      src="${preview}"
+      alt="${description}"
     />
-  </a>`)).join('')
-return img;
-}
+  </a>
+  `;
+   }).join('')
 
-console.log(addImg(galleryItems));
+};
+
+console.log(galleryItems);
 new SimpleLightbox('.gallery a',{
   captionsData: "alt",
   captionDelay: 250,
